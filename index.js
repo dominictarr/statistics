@@ -7,18 +7,20 @@ module.exports = Stats
 
 function Stats () {
   if (!(this instanceof Stats)) return new Stats()
-  this.values = []
   this.sum = 0
+  this.sqsum = 0
   this.mean = 0
+  this.count = 0
   this.max = null
   this.min = null
 }
 
 Stats.prototype = {
   value: function (val) {
-    this.values.push(val)
     this.sum += val
-    this.mean = this.sum / this.values.length
+    this.sqsum += val*val
+    this.count ++
+    this.mean = this.sum / this.count
     this.max = 
         this.max === null ? val 
       : val > this.max ? val
@@ -27,19 +29,15 @@ Stats.prototype = {
         this.min === null ? val 
       : val < this.min ? val
       : this.min 
+    return this
   },
   get variance () {
-    var l = this.values.length
-    var vari = 0
-    while (l--) { //fastest kind of js loop
-      vari += Math.pow(this.values[l] - this.mean, 2)
-    }
-    return vari
+    return this.sqsum / this.count - (this.mean * this.mean)
   },
-  get stdDev() {
+  get stdev() {
     return Math.sqrt(this.variance)
   },
-  toString: function (){
-    return [this.min, this.mean, this.stdDev, this.max].join('|')
+  toJSON: function () {
+    return {mean: this.mean, count: this.count, stdev: this.stdev}
   }
 }
