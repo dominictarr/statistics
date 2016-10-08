@@ -1,6 +1,6 @@
 {
   "name": "statistics",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "calculate mean standard deviation in one pass",
   "homepage": "http://github.com/dominictarr/statistics",
   "repository": {
