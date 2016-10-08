@@ -1,21 +1,37 @@
 
 # statistics
 
-calculate mean and standard deviation in one pass.
+a reduce function that calculates mean and standard deviation in one pass
+
+
+I first wrote this module a long long time ago, and i used an object oriented
+api. Today I needed to serialize a stats output to JSON, and then later parse it,
+and keep using it. Continuing to use an OO api would mean a bunch of glue code,
+so I rewrote it as a reduce function.
 
 ## example
 
 ``` js
-var Stats = require('statistics')
-var s = Stats()
+var stats = require('statistics')
 
-s.value(1).value(2).value(3)
-
-console.log('mean:', s.mean, 'stdev:', s.stdev)
-> mean: 2 stdev: 0.86...
+console.log([1,2,3].reduce(stats))
+=> {
+  mean: 2,
+  stdev: 0.8164965809277263,
+  count: 3,
+  sum: 6,
+  sqsum: 14
+}
 ```
+you probably only want to have the mean and stdev, the other fields are necessary for the reduce
+function however.
 
-It's possible to output values as you go.
-Since `stdev` is calculated in one pass,
-this has minimal memory commitments so you can take averages of everything.
+## functional is better than object oriented
 
+statistics@2 and earlier used an object oriented api, but then I needed to serialize and parse a stats
+object and keep using it. That was incredibly easy with a reduce function, but would have meant
+a bunch of ugly glue code with OO.
+
+## LICENSE
+
+MIT
