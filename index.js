@@ -1,43 +1,40 @@
+module.exports = function reduce (acc, value) {
+  //handle when called without initial
+  if('number' === typeof acc)
+    return reduce(reduce(null, acc), value)
+  //set initial if initial was null
+  else if(null == acc)
+    return {
+      mean: value,
+      sum: value,
+      sqsum: value*value,
+      count: 1,
+      stdev: 0
+    }
 
-//
-// caluclate simple statistics
-//
+  var sum = acc.sum + value
+  var count = acc.count + 1
+  var sq = value*value
 
-module.exports = Stats
+  var mean = sum/count
+  var sqsum = acc.sqsum + sq
 
-function Stats () {
-  if (!(this instanceof Stats)) return new Stats()
-  this.sum = 0
-  this.sqsum = 0
-  this.mean = 0
-  this.count = 0
-  this.max = null
-  this.min = null
-}
+  return {
+    //these values useful output
+    mean: mean,
+    stdev: Math.sqrt(sqsum/count - mean*mean),
 
-Stats.prototype = {
-  value: function (val) {
-    this.sum += val
-    this.sqsum += val*val
-    this.count ++
-    this.mean = this.sum / this.count
-    this.max = 
-        this.max === null ? val 
-      : val > this.max ? val
-      : this.max 
-    this.min = 
-        this.min === null ? val 
-      : val < this.min ? val
-      : this.min 
-    return this
-  },
-  get variance () {
-    return this.sqsum / this.count - (this.mean * this.mean)
-  },
-  get stdev() {
-    return Math.sqrt(this.variance)
-  },
-  toJSON: function () {
-    return {mean: this.mean, count: this.count, stdev: this.stdev}
+    //these values needed to maintain state.
+    count: count,
+    sum: sum,
+    sqsum: sqsum
   }
 }
+
+
+
+
+
+
+
+
