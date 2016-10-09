@@ -26,6 +26,13 @@ console.log([1,2,3].reduce(stats))
 you probably only want to have the mean and stdev, the other fields are necessary for the reduce
 function however.
 
+## mutating reduce: require('statistics/mutate')
+
+sometimes, a mutating reduce is prefured. this eases garbage collection,
+and allows you to maintain a reference to an updating value.
+
+otherwise the api is the same.
+
 ## functional is better than object oriented
 
 statistics@2 and earlier used an object oriented api, but then I needed to serialize and parse a stats
