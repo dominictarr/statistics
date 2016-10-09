@@ -6,10 +6,11 @@ module.exports = function reduce (acc, value) {
   else if(null == acc)
     return {
       mean: value,
-      sum: value,
-      sqsum: value*value,
+      stdev: 0,
+
       count: 1,
-      stdev: 0
+      sum: value,
+      sqsum: value*value
     }
 
   var sum = acc.sum + value
@@ -31,10 +32,7 @@ module.exports = function reduce (acc, value) {
   }
 }
 
-
-
-
-
-
-
-
+module.exports.initial = {
+  mean: 0, stdev: 0,
+  count: 0, sum: 0, sqsum: 0
+}
