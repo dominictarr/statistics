@@ -1,3 +1,4 @@
+'use strict'
 module.exports = function reduce (acc, value) {
   //handle when called without initial
   if('number' === typeof acc)
@@ -13,21 +14,19 @@ module.exports = function reduce (acc, value) {
       sqsum: value*value
     }
 
-  acc.sum = acc.sum + value
-  acc.count = acc.count + 1
+  var sum = (acc.sum||0) + value
+  var count = (acc.count||0) + 1
   var sq = value*value
-  acc.sqsum = acc.sqsum + sq
+  var sqsum = (acc.sqsum||0) + sq
 
-  acc.mean = acc.sum/acc.count
-  acc.stdev = Math.sqrt(acc.sqsum/acc.count - acc.mean*acc.mean)
+  acc.mean = sum/count
+  acc.stdev = Math.sqrt(sqsum/count - acc.mean*acc.mean)
+
+  acc.count = count
+  acc.sum = sum
+  acc.sqsum = sqsum
 
   return acc
 }
 
-module.exports.initial = {
-  mean: 0, stdev: 0,
-  count: 0, sum: 0, sqsum: 0
-}
-
-
-
+module.exports.initial = require('./initial')

@@ -32,7 +32,5 @@ module.exports = function reduce (acc, value) {
   }
 }
 
-module.exports.initial = {
-  mean: 0, stdev: 0,
-  count: 0, sum: 0, sqsum: 0
-}
+module.exports.initial = require('./initial')
+
